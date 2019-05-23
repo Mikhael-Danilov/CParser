@@ -98,7 +98,7 @@ local function newTag(tag)
 	 if type(x)=='string' then
 	    return string.format("%q",x):gsub("\\\n","\\n")
 	 elseif type(x)=='table' and not getmetatable(x) then
-	    return "{..}"
+       return "{}"
 	 else
 	    return tostring(x)
 	 end
@@ -117,7 +117,7 @@ local function newTag(tag)
 	 elseif type(k) ~= 'string' then
 	    s.extra = true
 	 elseif k:find("^_") and type(v)=='table' then
-	    s[1+#s] = string.format("%s={..}",k) -- hidden
+       s[1+#s] = string.format("%s={}",k) -- hidden
 	 elseif k ~= 'tag' then
 	    s[1+#s] = string.format("%s=%s",k,str(v)) end
       end
@@ -1936,7 +1936,7 @@ local function declToString(action)
       if action.intval then
 	 s = s .. ' = ' .. action.intval
       elseif action.init and typeIs(action.type, 'Function') then
-	 s = s .. "{..}"
+    s = s .. {}
       elseif action.init then
 	 s = s .. "=.."
       end
